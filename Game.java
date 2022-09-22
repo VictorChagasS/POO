@@ -39,45 +39,45 @@ public class Game
         // create the rooms
         east_blue = new Room("Inicio da jornada. Você está no mar dos fracos. Há inimigos por perto.","");
         vila_da_nami = new Room("Você chegou na vila da Nami. Ela está desenhando mapas ao leste. Ir pela direção errada pode ter drasticas consequencias.","");
-        buggy = new Room("Você encontrou o buggy e perdeu","vilao");
-        arlong = new Room("Você encontrou o arlong e perdeu","vilao");
-        akainu = new Room("Você encontrou o akainu e perdeu","vilao");
-        nami = new Room("Você encontrou a Nami, a navegadora do bando","companheiro");
-        barba_negra = new Room("Você encontrou o Barba negra e perdeu","vilao");
+        buggy = new Room("Você encontrou o buggy e perdeu","villain");
+        arlong = new Room("Você encontrou o arlong e perdeu","villain");
+        akainu = new Room("Você encontrou o akainu e perdeu","villain");
+        nami = new Room("Você encontrou a Nami, a navegadora do bando","mate");
+        barba_negra = new Room("Você encontrou o Barba negra e perdeu","villain");
         baratie = new Room("Você no restaurante do Sanji, o cozinheiro do bando. Ele está nos fundos. Há inimigos por perto.","");
-        zoro = new Room("Você encontrou Zoro, o espadachim do bando,. Há inimigos por perto","companheiro");
-        sanji = new Room("Você encontrou Sanji, o cozinheiro do bando","companheiro");
-        don_krieg = new Room("Você encontrou o Don Krieg e perdeu","vilao");
-        vila_do_usopp = new Room("Você chegou na vila do usopp, continue seguindo para encontrar o tesouro. Mas antes disso , precisará estender sua rota para encontrar mais um companheiro","");
-        usopp = new Room("Você encontrou o Usopp, atirador do bando","companheiro");
+        zoro = new Room("Você encontrou Zoro, o espadachim do bando,. Há inimigos por perto","mate");
+        sanji = new Room("Você encontrou Sanji, o cozinheiro do bando","mate");
+        don_krieg = new Room("Você encontrou o Don Krieg e perdeu","villain");
+        vila_do_usopp = new Room("Você chegou na vila do usopp, continue seguindo para encontrar o tesouro. Mas antes disso , precisará estender sua rota para encontrar mais um mate","");
+        usopp = new Room("Você encontrou o Usopp, atirador do bando","mate");
         one_Piece = new Room("Você encontrou o maior tesouro do mundo. Fim de jogo.", "fim");
 
         // initialise room exits
-        east_blue.setExit("east", vila_da_nami);
-        east_blue.setExit("west", buggy);
-        east_blue.setExit("north", zoro);
+        east_blue.setExit("leste", vila_da_nami);
+        east_blue.setExit("oeste", buggy);
+        east_blue.setExit("norte", zoro);
 
-        vila_da_nami.setExit("west", east_blue);
-        vila_da_nami.setExit("north", arlong);
-        vila_da_nami.setExit("east", nami);
-        vila_da_nami.setExit("south", akainu);
+        vila_da_nami.setExit("oeste", east_blue);
+        vila_da_nami.setExit("norte", arlong);
+        vila_da_nami.setExit("leste", nami);
+        vila_da_nami.setExit("sul", akainu);
 
-        zoro.setExit("west", barba_negra);
-        zoro.setExit("east", baratie);
-        zoro.setExit("north",vila_do_usopp);
-        zoro.setExit("south", east_blue);
+        zoro.setExit("oeste", barba_negra);
+        zoro.setExit("leste", baratie);
+        zoro.setExit("norte",vila_do_usopp);
+        zoro.setExit("sul", east_blue);
 
-        baratie.setExit("south", sanji);
-        baratie.setExit("north", don_krieg);
-        baratie.setExit("west", zoro);
+        baratie.setExit("sul", sanji);
+        baratie.setExit("norte", don_krieg);
+        baratie.setExit("oeste", zoro);
 
-        vila_do_usopp.setExit("north",one_Piece);
-        vila_do_usopp.setExit("east",usopp);
-        vila_do_usopp.setExit("south",zoro);
+        vila_do_usopp.setExit("norte",one_Piece);
+        vila_do_usopp.setExit("leste",usopp);
+        vila_do_usopp.setExit("sul",zoro);
 
-        usopp.setExit("west",vila_do_usopp);
-        sanji.setExit("north",baratie);
-        nami.setExit("west",vila_da_nami);
+        usopp.setExit("oeste",vila_do_usopp);
+        sanji.setExit("norte",baratie);
+        nami.setExit("oeste",vila_da_nami);
 
 
 
@@ -100,7 +100,7 @@ public class Game
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Infelizmente você perdeu mas mantenha sua determinação e tente novamente");
     }
 
     /**
@@ -110,7 +110,7 @@ public class Game
     {
         System.out.println();
         System.out.println("Bem vindo(a) ao mundo de One piece");
-        System.out.println("Sua missão é reunir todos os companheiros e encontrar o One piece, o maior tesouro do mundo, mas ATENÇÃO, há varios inimigos no seu caminho, tome CUIDADO!");
+        System.out.println("Sua missão é reunir todos os seus " + currentRoom.getAllMates() + " companheiros e encontrar o One piece, o maior tesouro do mundo, mas ATENÇÃO, há varios inimigos no seu caminho, tome CUIDADO!");
         System.out.println("Digite '" + CommandWord.HELP + "' se você precisa de ajuda");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
@@ -188,6 +188,7 @@ public class Game
             currentRoom.setPassou(true);
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+            currentRoom.getSubPrints();
         }
     }
 
